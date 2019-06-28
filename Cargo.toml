@@ -1,0 +1,7 @@
+[package]
+name = "dominant_color"
+version = "0.1.0"
+authors = ["Marek Michalik <marekmichalik43@gmail.com>"]
+edition = "2018"
+
+[dependencies]

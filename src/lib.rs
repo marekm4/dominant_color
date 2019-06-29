@@ -23,7 +23,7 @@ pub fn get_colors_with_config(
     down_size_to: f64,
     small_bucket: f64,
 ) -> Vec<Color> {
-    // calculate bits per pixel
+    // calculate bytes per pixel
     let bytes_per_pixel = if has_alpha { 4 } else { 3 };
 
     // calculate down size step

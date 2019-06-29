@@ -2,6 +2,7 @@
 name = "dominant_color"
 version = "0.1.0"
 authors = ["Marek Michalik <marekmichalik43@gmail.com>"]
+license = "MIT"
 edition = "2018"
 description = "Simple image color extractor written in Rust with no external dependencies"
 categories = ["algorithms", "multimedia::images"]

@@ -14,6 +14,8 @@ Usage:
 extern crate dominant_color;
 extern crate image;
 
+use std::path;
+
 fn main() {
     let image = image::open(&path::Path::new("docs/Fotolia_45549559_320_480.jpg")).unwrap();
     let colors = dominant_color::get_colors(&image.raw_pixels());

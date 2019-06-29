@@ -12,5 +12,8 @@ readme = "README.md"
 
 [dependencies]
 
-[dev-dependencies]
+
+[dev-dependencies.image]
 image = "^0.21.2"
+default-features = false
+features = ["jpeg"]

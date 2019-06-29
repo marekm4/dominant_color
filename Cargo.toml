@@ -1,6 +1,6 @@
 [package]
 name = "dominant_color"
-version = "0.1.1"
+version = "0.1.2"
 authors = ["Marek Michalik <marekmichalik43@gmail.com>"]
 license = "MIT"
 edition = "2018"
@@ -10,7 +10,7 @@ categories = ["algorithms", "multimedia::images"]
 repository = "https://github.com/marekm4/dominant_color"
 readme = "README.md"
 
-[dependencies]
-
-[dev-dependencies]
-image = "^0.21.2"
+[dev-dependencies.image]
+version = "0.21.2"
+default-features = false
+features = ["jpeg"]

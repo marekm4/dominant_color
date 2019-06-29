@@ -7,7 +7,7 @@ Status:
 
 Demo:
 
-https://color-extractor-demo.herokuapp.com/
+http://dominant-color-demo.herokuapp.com/
 
 Usage:
 ```rust
@@ -18,7 +18,11 @@ use std::path;
 
 fn main() {
     let image = image::open(&path::Path::new("docs/Fotolia_45549559_320_480.jpg")).unwrap();
-    let colors = dominant_color::get_colors(&image.raw_pixels(), false);
+    let has_alpha = match image.color() {
+        image::ColorType::RGBA(8) => true,
+        _ => false,
+    };
+    let colors = dominant_color::get_colors(&image.raw_pixels(), has_alpha);
     println!("{:?}", colors);
 }
 ```

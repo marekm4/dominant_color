@@ -3,3 +3,5 @@ rust:
   - stable
 script:
   - cargo test
+notifications:
+  email: false

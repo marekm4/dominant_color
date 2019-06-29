@@ -1,5 +1,5 @@
 ### Simple image color extractor written in Rust with no external dependencies
-It's a Rust port of https://github.com/marekm4/color-extractor but **only RGB** palettes are supported for now!
+It's a Rust port of https://github.com/marekm4/color-extractor
 
 Status:
 

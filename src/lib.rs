@@ -13,13 +13,21 @@ struct Bucket {
     count: f64,
 }
 
-pub fn get_colors(pixels: &[u8]) -> Vec<Color> {
-    get_colors_with_config(&pixels, 224.0 * 224.0, 0.01)
+pub fn get_colors(pixels: &[u8], has_alpha: bool) -> Vec<Color> {
+    get_colors_with_config(&pixels, has_alpha, 224.0 * 224.0, 0.01)
 }
 
-pub fn get_colors_with_config(pixels: &[u8], down_size_to: f64, small_bucket: f64) -> Vec<Color> {
+pub fn get_colors_with_config(
+    pixels: &[u8],
+    has_alpha: bool,
+    down_size_to: f64,
+    small_bucket: f64,
+) -> Vec<Color> {
+    // calculate bits per pixel
+    let bytes_per_pixel = if has_alpha { 4 } else { 3 };
+
     // calculate down size step
-    let pixel_count = pixels.len() / 3;
+    let pixel_count = pixels.len() / bytes_per_pixel;
     let step = (pixel_count / down_size_to.round() as usize).max(1);
 
     // load pixels to buckets
@@ -29,17 +37,21 @@ pub fn get_colors_with_config(pixels: &[u8], down_size_to: f64, small_bucket: f6
         b: 0.0,
         count: 0.0,
     }; 2]; 2]; 2];
-    for i in (0..pixels.len()).step_by(3 * step) {
-        let r = pixels[i];
-        let g = pixels[i + 1];
-        let b = pixels[i + 2];
+    let mut sampled_pixel_count = 0;
+    for n in (0..pixel_count).step_by(step) {
+        let r = pixels[n * bytes_per_pixel];
+        let g = pixels[n * bytes_per_pixel + 1];
+        let b = pixels[n * bytes_per_pixel + 2];
         let i = (r >> 7) as usize;
         let j = (g >> 7) as usize;
         let k = (b >> 7) as usize;
-        buckets[i][j][k].r += r as f64;
-        buckets[i][j][k].g += g as f64;
-        buckets[i][j][k].b += b as f64;
-        buckets[i][j][k].count += 1.0;
+        if !has_alpha || pixels[n * bytes_per_pixel + 3] == 255 {
+            buckets[i][j][k].r += r as f64;
+            buckets[i][j][k].g += g as f64;
+            buckets[i][j][k].b += b as f64;
+            buckets[i][j][k].count += 1.0;
+            sampled_pixel_count += 1;
+        }
     }
 
     // calculate buckets averages
@@ -65,7 +77,6 @@ pub fn get_colors_with_config(pixels: &[u8], down_size_to: f64, small_bucket: f6
 
     // convert buckets to colors, ignore small buckets
     let mut colors: Vec<Color> = Vec::new();
-    let sampled_pixel_count = pixel_count / step;
     for ba in &buckets_averages {
         if ba.count / sampled_pixel_count as f64 > small_bucket {
             colors.push(Color {

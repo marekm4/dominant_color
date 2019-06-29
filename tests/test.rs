@@ -6,14 +6,21 @@ use std::path;
 #[test]
 fn empty_image() {
     let pixels: [u8; 0] = [];
-    let colors = dominant_color::get_colors(&pixels);
+    let colors = dominant_color::get_colors(&pixels, false);
+    assert_eq!(colors.len(), 0);
+}
+
+#[test]
+fn transparent_image() {
+    let pixels: [u8; 4] = [135, 202, 82, 0];
+    let colors = dominant_color::get_colors(&pixels, true);
     assert_eq!(colors.len(), 0);
 }
 
 #[test]
 fn single_pixel() {
     let pixels: [u8; 3] = [135, 202, 82];
-    let colors = dominant_color::get_colors(&pixels);
+    let colors = dominant_color::get_colors(&pixels, false);
     assert_eq!(
         colors[0],
         dominant_color::Color {
@@ -27,7 +34,7 @@ fn single_pixel() {
 #[test]
 fn one_color() {
     let pixels: [u8; 6] = [135, 202, 82, 135, 202, 82];
-    let colors = dominant_color::get_colors(&pixels);
+    let colors = dominant_color::get_colors(&pixels, false);
     assert_eq!(
         colors[0],
         dominant_color::Color {
@@ -41,7 +48,15 @@ fn one_color() {
 #[test]
 fn two_colors() {
     let pixels: [u8; 9] = [255, 0, 0, 0, 255, 0, 255, 0, 0];
-    let colors = dominant_color::get_colors(&pixels);
+    let colors = dominant_color::get_colors(&pixels, false);
+    assert_eq!(colors[0], dominant_color::Color { r: 255, g: 0, b: 0 });
+    assert_eq!(colors[1], dominant_color::Color { r: 0, g: 255, b: 0 });
+}
+
+#[test]
+fn two_colors_and_one_transparent() {
+    let pixels: [u8; 16] = [255, 0, 0, 255, 0, 255, 0, 255, 255, 0, 0, 255, 0, 0, 255, 0];
+    let colors = dominant_color::get_colors(&pixels, true);
     assert_eq!(colors[0], dominant_color::Color { r: 255, g: 0, b: 0 });
     assert_eq!(colors[1], dominant_color::Color { r: 0, g: 255, b: 0 });
 }
@@ -51,7 +66,7 @@ fn mixed_colors() {
     let pixels: [u8; 21] = [
         255, 0, 0, 255, 0, 0, 245, 0, 0, 245, 0, 0, 0, 255, 0, 0, 255, 0, 0, 240, 0,
     ];
-    let colors = dominant_color::get_colors(&pixels);
+    let colors = dominant_color::get_colors(&pixels, false);
     assert_eq!(colors[0], dominant_color::Color { r: 250, g: 0, b: 0 });
     assert_eq!(colors[1], dominant_color::Color { r: 0, g: 250, b: 0 });
 }
@@ -59,7 +74,7 @@ fn mixed_colors() {
 #[test]
 fn image() {
     let image = image::open(&path::Path::new("docs/Fotolia_45549559_320_480.jpg")).unwrap();
-    let colors = dominant_color::get_colors(&image.raw_pixels());
+    let colors = dominant_color::get_colors(&image.raw_pixels(), false);
     assert_eq!(
         colors[0],
         dominant_color::Color {

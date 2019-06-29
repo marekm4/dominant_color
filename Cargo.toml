@@ -10,6 +10,8 @@ categories = ["algorithms", "multimedia::images"]
 repository = "https://github.com/marekm4/dominant_color"
 readme = "README.md"
 
+[dependencies]
+
 [dev-dependencies.image]
 image = "0.21.2"
 default-features = false

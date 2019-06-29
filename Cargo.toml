@@ -4,5 +4,7 @@ version = "0.1.0"
 authors = ["Marek Michalik <marekmichalik43@gmail.com>"]
 edition = "2018"
 
-[dev-dependencies]
+[dev-dependencies.image]
 image = "0.21.2"
+default-features = false
+features = ["jpeg"]

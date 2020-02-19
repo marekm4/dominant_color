@@ -37,7 +37,7 @@ pub fn get_colors_with_config(
         b: 0.0,
         count: 0.0,
     }; 2]; 2]; 2];
-    let mut sampled_pixel_count = 0;
+    let mut sampled_pixel_count = 0.0;
     for n in (0..pixel_count).step_by(step) {
         let r = pixels[n * bytes_per_pixel];
         let g = pixels[n * bytes_per_pixel + 1];
@@ -45,13 +45,17 @@ pub fn get_colors_with_config(
         let i = (r >> 7) as usize;
         let j = (g >> 7) as usize;
         let k = (b >> 7) as usize;
-        if !has_alpha || pixels[n * bytes_per_pixel + 3] == 255 {
-            buckets[i][j][k].r += r as f64;
-            buckets[i][j][k].g += g as f64;
-            buckets[i][j][k].b += b as f64;
-            buckets[i][j][k].count += 1.0;
-            sampled_pixel_count += 1;
-        }
+        let alpha = if has_alpha {
+            pixels[n * bytes_per_pixel + 3] as f64 / 255.0
+        } else {
+            1.0
+        };
+
+        buckets[i][j][k].r += r as f64 * alpha;
+        buckets[i][j][k].g += g as f64 * alpha;
+        buckets[i][j][k].b += b as f64 * alpha;
+        buckets[i][j][k].count += alpha;
+        sampled_pixel_count += alpha;
     }
 
     // calculate buckets averages

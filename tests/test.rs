@@ -1,6 +1,3 @@
-extern crate dominant_color;
-extern crate image;
-
 use std::path;
 
 #[test]
@@ -15,6 +12,64 @@ fn transparent_image() {
     let pixels: [u8; 4] = [135, 202, 82, 0];
     let colors = dominant_color::get_colors(&pixels, true);
     assert_eq!(colors.len(), 0);
+}
+
+#[test]
+fn semi_transparent_single_pixel() {
+    let pixels: [u8; 4] = [135, 202, 82, 127];
+    let colors = dominant_color::get_colors(&pixels, true);
+    assert_eq!(
+        colors[0],
+        dominant_color::Color {
+            r: 135,
+            g: 202,
+            b: 82
+        }
+    );
+}
+
+#[test]
+fn semi_transparent_image() {
+    let pixels: [u8; 8] = [255, 0, 0, 127, 0, 255, 0, 255];
+    let colors = dominant_color::get_colors(&pixels, true);
+    assert_eq!(
+        colors[0],
+        dominant_color::Color {
+            r: 0,
+            g: 255,
+            b: 0
+        }
+    );
+    assert_eq!(
+        colors[1],
+        dominant_color::Color {
+            r: 255,
+            g: 0,
+            b: 0
+        }
+    );
+}
+
+#[test]
+fn semi_transparent_region_is_bigger() {
+    let pixels: [u8; 16] = [255, 0, 0, 127, 255, 0, 0, 127, 255, 0, 0, 127, 0, 255, 0, 255];
+    let colors = dominant_color::get_colors(&pixels, true);
+    assert_eq!(
+        colors[0],
+        dominant_color::Color {
+            r: 255,
+            g: 0,
+            b: 0
+        }
+    );
+    assert_eq!(
+        colors[1],
+        dominant_color::Color {
+            r: 0,
+            g: 255,
+            b: 0
+        }
+    );
 }
 
 #[test]

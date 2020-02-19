@@ -1,6 +1,6 @@
 [package]
 name = "dominant_color"
-version = "0.2.3"
+version = "0.2.4"
 authors = ["Marek Michalik <marekmichalik43@gmail.com>"]
 license = "MIT"
 edition = "2018"

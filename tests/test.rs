@@ -74,7 +74,7 @@ fn mixed_colors() {
 #[test]
 fn image() {
     let image = image::open(&path::Path::new("docs/Fotolia_45549559_320_480.jpg")).unwrap();
-    let colors = dominant_color::get_colors(&image.raw_pixels(), false);
+    let colors = dominant_color::get_colors(&image.to_bytes(), false);
     assert_eq!(
         colors[0],
         dominant_color::Color {

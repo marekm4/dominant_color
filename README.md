@@ -22,7 +22,7 @@ fn main() {
         image::ColorType::RGBA(8) => true,
         _ => false,
     };
-    let colors = dominant_color::get_colors(&image.raw_pixels(), has_alpha);
+    let colors = dominant_color::get_colors(&image.to_bytes(), has_alpha);
     println!("{:?}", colors);
 }
 ```

@@ -11,6 +11,6 @@ repository = "https://github.com/marekm4/dominant_color"
 readme = "README.md"
 
 [dev-dependencies.image]
-version = "0.21.2"
+version = "0.23.0"
 default-features = false
 features = ["jpeg"]

@@ -1,10 +1,3 @@
-#[derive(PartialEq, Debug)]
-pub struct Color {
-    pub r: u8,
-    pub g: u8,
-    pub b: u8,
-}
-
 #[derive(Copy, Clone, Debug)]
 struct Bucket {
     r: f64,
@@ -13,7 +6,7 @@ struct Bucket {
     count: f64,
 }
 
-pub fn get_colors(pixels: &[u8], has_alpha: bool) -> Vec<Color> {
+pub fn get_colors(pixels: &[u8], has_alpha: bool) -> Vec<u8> {
     get_colors_with_config(&pixels, has_alpha, 224.0 * 224.0, 0.01)
 }
 
@@ -22,7 +15,7 @@ pub fn get_colors_with_config(
     has_alpha: bool,
     down_size_to: f64,
     small_bucket: f64,
-) -> Vec<Color> {
+) -> Vec<u8> {
     // calculate bytes per pixel
     let bytes_per_pixel = if has_alpha { 4 } else { 3 };
 
@@ -79,15 +72,16 @@ pub fn get_colors_with_config(
     // sort buckets averages
     buckets_averages.sort_by(|a, b| b.count.partial_cmp(&a.count).unwrap());
 
-    // convert buckets to colors, ignore small buckets
-    let mut colors: Vec<Color> = Vec::new();
+    // convert buckets to vector, ignore small buckets
+    let mut colors: Vec<u8> = Vec::new();
     for ba in &buckets_averages {
         if ba.count / sampled_pixel_count as f64 > small_bucket {
-            colors.push(Color {
-                r: ba.r.round() as u8,
-                g: ba.g.round() as u8,
-                b: ba.b.round() as u8,
-            });
+            colors.push(ba.r.round() as u8);
+            colors.push(ba.g.round() as u8);
+            colors.push(ba.b.round() as u8);
+            if has_alpha {
+                colors.push(255 as u8);
+            }
         }
     }
 

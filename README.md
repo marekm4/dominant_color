@@ -8,6 +8,10 @@ Demo:
 
 http://dominant-color-demo.herokuapp.com/
 
+Blog post:
+
+https://medium.com/@marek.michalik/c-vs-rust-vs-go-performance-analysis-945ab749056c
+
 Usage:
 ```rust
 use std::path;

@@ -1,9 +1,9 @@
 [package]
 name = "dominant_color"
-version = "0.3.0"
+version = "0.4.0"
 authors = ["Marek Michalik <marekmichalik43@gmail.com>"]
 license = "MIT"
-edition = "2018"
+edition = "2021"
 description = "Simple image color extractor written in Rust with no external dependencies"
 categories = ["algorithms", "multimedia::images"]
 
@@ -11,6 +11,6 @@ repository = "https://github.com/marekm4/dominant_color"
 readme = "README.md"
 
 [dev-dependencies.image]
-version = "0.23.0"
+version = "0.24.5"
 default-features = false
 features = ["jpeg"]

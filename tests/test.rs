@@ -44,7 +44,7 @@ fn semi_transparent_region_is_bigger() {
 fn single_pixel() {
     let pixels: Vec<u8> = vec![135, 202, 82];
     let colors = dominant_color::get_colors(&pixels, false);
-    assert_eq!(colors.len(), 3);
+    assert_eq!(colors.len(), 1 * 3);
     assert_eq!(colors, vec!(135, 202, 82));
 }
 
@@ -52,7 +52,7 @@ fn single_pixel() {
 fn one_color() {
     let pixels: Vec<u8> = vec![135, 202, 82, 135, 202, 82];
     let colors = dominant_color::get_colors(&pixels, false);
-    assert_eq!(colors.len(), 3);
+    assert_eq!(colors.len(), 1 * 3);
     assert_eq!(colors, vec!(135, 202, 82));
 }
 

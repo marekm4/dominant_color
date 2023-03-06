@@ -9,6 +9,7 @@ cargo add dominant_color
 ## Usage
 ```rust
 use std::path;
+use image::EncodableLayout;
 
 fn main() {
     let image = image::open(path::Path::new("docs/Fotolia_45549559_320_480.jpg")).unwrap();
@@ -18,17 +19,18 @@ fn main() {
     println!("{:?}", colors);
 
     // if you are not sure
-    let colors = dominant_color::get_colors(image.to_rgb8().into_raw().as_slice(), false);
+    let colors = dominant_color::get_colors(image.to_rgb8().as_bytes(), false);
     println!("{:?}", colors);
 
     // if image has alpha channel
-    let colors = dominant_color::get_colors(image.to_rgba8().into_raw().as_slice(), true);
+    let colors = dominant_color::get_colors(image.to_rgba8().as_bytes(), true);
     println!("{:?}", colors);
 }
 ```
 
 ## Example
 ![Image](https://raw.githubusercontent.com/marekm4/dominant_color/master/docs/Fotolia_45549559_320_480.jpg)
+
 ![Colors](https://raw.githubusercontent.com/marekm4/dominant_color/master/docs/colors.png)
 
 ## Demo

@@ -1,4 +1,5 @@
 use std::path;
+use image::EncodableLayout;
 
 #[test]
 fn empty_image() {
@@ -96,7 +97,7 @@ fn image() {
 #[test]
 fn image_with_alpha() {
     let image = image::open(path::Path::new("docs/Fotolia_45549559_320_480.jpg")).unwrap();
-    let colors = dominant_color::get_colors(image.to_rgba8().into_raw().as_slice(), true);
+    let colors = dominant_color::get_colors(image.to_rgba8().as_bytes(), true);
     assert_eq!(colors.len(), 5 * 4);
     assert_eq!(
         colors,

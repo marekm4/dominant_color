@@ -14,6 +14,16 @@ use std::path;
 
 fn main() {
     let image = image::open(path::Path::new("docs/Fotolia_45549559_320_480.jpg")).unwrap();
+
+    // if you are sure that you are using RGB(A) image
+    let has_alpha = match image.color() {
+        image::ColorType::Rgba8 => true,
+        _ => false,
+    };
+    let colors = dominant_color::get_colors(image.as_bytes(), has_alpha);
+    println!("has_alpha: {}, colors: {:?}", has_alpha, colors);
+
+    // if you are not sure
     let colors = dominant_color::get_colors(image.to_rgb8().into_raw().as_slice(), false);
     println!("colors: {:?}", colors);
 }

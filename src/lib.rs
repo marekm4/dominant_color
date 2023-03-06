@@ -7,7 +7,7 @@ struct Bucket {
 }
 
 pub fn get_colors(pixels: &[u8], has_alpha: bool) -> Vec<u8> {
-    get_colors_with_config(&pixels, has_alpha, 224.0 * 224.0, 0.01)
+    get_colors_with_config(pixels, has_alpha, 224.0 * 224.0, 0.01)
 }
 
 pub fn get_colors_with_config(
@@ -75,12 +75,12 @@ pub fn get_colors_with_config(
     // convert buckets to vector, ignore small buckets
     let mut colors: Vec<u8> = Vec::new();
     for ba in &buckets_averages {
-        if ba.count / sampled_pixel_count as f64 > small_bucket {
+        if ba.count / sampled_pixel_count > small_bucket {
             colors.push(ba.r.round() as u8);
             colors.push(ba.g.round() as u8);
             colors.push(ba.b.round() as u8);
             if has_alpha {
-                colors.push(255 as u8);
+                colors.push(255_u8);
             }
         }
     }

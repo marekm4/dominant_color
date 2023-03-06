@@ -84,11 +84,25 @@ fn mixed_colors() {
 
 #[test]
 fn image() {
-    let image = image::open(&path::Path::new("docs/Fotolia_45549559_320_480.jpg")).unwrap();
-    let colors = dominant_color::get_colors(&image.to_bytes(), false);
+    let image = image::open(path::Path::new("docs/Fotolia_45549559_320_480.jpg")).unwrap();
+    let colors = dominant_color::get_colors(image.to_rgb8().into_raw().as_slice(), false);
     assert_eq!(colors.len(), 5 * 3);
     assert_eq!(
         colors,
         vec!(232, 230, 228, 58, 58, 10, 204, 52, 25, 191, 178, 56, 104, 152, 12)
+    );
+}
+
+#[test]
+fn image_with_alpha() {
+    let image = image::open(path::Path::new("docs/Fotolia_45549559_320_480.jpg")).unwrap();
+    let colors = dominant_color::get_colors(image.to_rgba8().into_raw().as_slice(), true);
+    assert_eq!(colors.len(), 5 * 4);
+    assert_eq!(
+        colors,
+        vec!(
+            232, 230, 228, 255, 58, 58, 10, 255, 204, 52, 25, 255, 191, 178, 56, 255, 104, 152, 12,
+            255
+        )
     );
 }
